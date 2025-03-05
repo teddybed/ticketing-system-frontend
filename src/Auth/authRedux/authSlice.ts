@@ -22,6 +22,7 @@ const initialState: AuthState = {
 };
 
 // Async thunk for registering a user
+// Updated async thunk for registering a user
 export const registerUser = createAsyncThunk(
   'auth/registerUser',
   async ({ formData, navigate }: { formData: AuthState['formData']; navigate: Function }, { rejectWithValue }) => {
@@ -29,7 +30,7 @@ export const registerUser = createAsyncThunk(
       const response = await fetch('http://192.168.42.144:3000/signup', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify(formData),
+        body: JSON.stringify(formData), // Ensure the form data including the role is sent
       });
 
       const data = await response.json();
@@ -46,6 +47,7 @@ export const registerUser = createAsyncThunk(
     }
   }
 );
+
 
 // Async thunk for logging in a user
 export const loginUser = createAsyncThunk(

@@ -1,23 +1,22 @@
 import React from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-import { RootState, AppDispatch } from './authRedux/store'; // Ensure these imports are correct
+import { RootState, AppDispatch } from './authRedux/store';
 import { registerUser, updateFormData } from './authRedux/authSlice';
 import { useNavigate } from 'react-router-dom';
 
 const RegistrationPage: React.FC = () => {
-  const dispatch = useDispatch<AppDispatch>();  // Use AppDispatch for typing
+  const dispatch = useDispatch<AppDispatch>();
   const navigate = useNavigate();
-  
+
   const { formData, error, successMessage, loading } = useSelector((state: RootState) => state.auth);
 
-  const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+  const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement>) => {
     const { name, value } = e.target;
     dispatch(updateFormData({ name, value }));
   };
 
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
-    // Now just use the already declared dispatch
     dispatch(registerUser({ formData, navigate }));
   };
 
@@ -63,6 +62,20 @@ const RegistrationPage: React.FC = () => {
               className="w-full p-3 border border-gray-300 rounded-md focus:ring-2 focus:ring-blue-500"
               placeholder="Enter your password"
             />
+          </div>
+
+          {/* Role selection */}
+          <div>
+            <label className="block text-sm font-medium text-gray-700">Role</label>
+            <select
+              name="role"
+              value={formData.role}
+              onChange={handleChange}
+              className="w-full p-3 border border-gray-300 rounded-md focus:ring-2 focus:ring-blue-500"
+            >
+              <option value="user">User</option>
+              <option value="admin">Admin</option>
+            </select>
           </div>
 
           <button
